@@ -21,8 +21,9 @@ repositories:
   tms_if_for_opera:
     type: git
     # main @ 2026-10-02 (60a5af3) + MoveIt scaling factors as launch args (default 1.0).
-    # Return to irvs main once the upstream PR is merged.
-    url: https://github.com/kimushun1101/tms_if_for_opera.git
+    # Upstream provides per-plan scaling on feature/primitive instead; return to
+    # irvs main once feature/primitive is merged there.
+    url: https://github.com/shimz-robotics/tms_if_for_opera.git
     version: 6987a9b032d4ab768c26cae2a36e442011316e24  # feature/moveit2-scaling-factor-param @ 2026-10-07
   opera/common/com3_ros:
     type: git
