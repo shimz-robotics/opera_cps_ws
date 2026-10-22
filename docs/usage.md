@@ -114,7 +114,7 @@ docker compose up -d
 
 ```bash
 # TMS 側 (このリポ)
-cd opera-cps-ws
+cd opera_cps_ws
 docker compose up -d
 
 # Node-RED 側 (別リポ)

@@ -11,7 +11,7 @@
 ## ワークスペース構造
 
 ```
-opera-cps-ws/                        # this repo (meta)
+opera_cps_ws/                        # this repo (meta)
 ├── Dockerfile
 ├── compose.yaml
 ├── requirements.txt                 # 上流から vendor、bump 時は手動同期
@@ -39,8 +39,8 @@ opera-cps-ws/                        # this repo (meta)
 ### 1. clone & 依存取得
 
 ```bash
-git clone https://github.com/shimz-robotics/opera-cps-ws.git
-cd opera-cps-ws
+git clone https://github.com/shimz-robotics/opera_cps_ws.git
+cd opera_cps_ws
 
 mkdir -p src
 vcs import src/ < src.repos                       # 全員必須 (public)

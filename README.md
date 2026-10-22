@@ -1,4 +1,4 @@
-# opera-cps-ws
+# opera_cps_ws
 
 ROS 2 TMS for Construction の **開発用 meta-workspace**。Docker + vcstool で `ros2_tms_for_construction` 本体と全外部依存を 1 ファイルで管理し、ホスト側で全 src を編集しながらコンテナ内で colcon build できる構成。
 
@@ -21,8 +21,8 @@ ROS 2 TMS for Construction の **開発用 meta-workspace**。Docker + vcstool �
 ## 環境構築
 
 ```bash
-git clone https://github.com/shimz-robotics/opera-cps-ws.git
-cd opera-cps-ws
+git clone https://github.com/shimz-robotics/opera_cps_ws.git
+cd opera_cps_ws
 
 # per-host 設定 (UID/GID 等) を .env に固定 — 初回のみ
 cp .env.example .env

@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.6
 #
-# opera-cps-ws — full-stack dev image for ros2_tms_for_construction
+# opera_cps_ws — full-stack dev image for ros2_tms_for_construction
 #
 # Base : osrf/ros:humble-desktop-full (Ubuntu 22.04 jammy)
 # GUI  : X11 forward (no VNC)
