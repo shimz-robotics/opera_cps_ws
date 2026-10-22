@@ -13,15 +13,18 @@ repositories:
   ros2_tms_for_construction:
     type: git
     url: https://github.com/irvs/ros2_tms_for_construction.git
-    version: 0d051dff8dababf9875c176293f0cda210703a34  # main @ 2026-05-12 (merge of PR #100: docker/ X11 dev env)
+    version: 209a418fe5416c05541795b0b64f8038dee91e25  # main @ 2026-10-07 (merge of PR #106: bound halt_bef cancel waits)
   Groot:
     type: git
     url: https://github.com/BehaviorTree/Groot.git
     version: 70973d004365f16d47a8c7bd9c5d84fa0bb9d05d  # master @ 2025-02-28
   tms_if_for_opera:
     type: git
-    url: https://github.com/irvs/tms_if_for_opera.git
-    version: 45bb2ff559eaca6d1e2fcc45f8f9200593451193  # main @ 2026-04-28 (merge of #14: package.xml <depend> fix)
+    # main @ 2026-10-02 (60a5af3) + MoveIt scaling factors as launch args (default 1.0).
+    # Upstream provides per-plan scaling on feature/primitive instead; return to
+    # irvs main once feature/primitive is merged there.
+    url: https://github.com/shimz-robotics/tms_if_for_opera.git
+    version: 6987a9b032d4ab768c26cae2a36e442011316e24  # feature/moveit2-scaling-factor-param @ 2026-10-07
   opera/common/com3_ros:
     type: git
     url: https://github.com/pwri-opera/com3_ros.git

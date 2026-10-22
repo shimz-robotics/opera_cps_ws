@@ -53,6 +53,8 @@ vcs import --force src/ < src.repos     # 既存 dir を destroy して再 clone
 ./scripts/exec.sh colcon build --symlink-install --packages-up-to bumped_pkg
 ```
 
+`ros2_tms_for_construction` の pin を上げて DB のシード (`demo/rostmsdb_collections.zip`) が変わった時は `docker compose exec tms restore-db.sh` を実行し直す。
+
 特定 repo だけ branch 切替したい時はホスト側で `cd src/<repo> && git checkout <branch>` で OK。
 
 ## ⑤ 「初回 colcon build」をやり直す

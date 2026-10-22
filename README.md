@@ -40,7 +40,7 @@ docker compose exec tms restore-db.sh # DB seed 投入 (初回のみ)
 
 前提条件（ホスト OS / vcstool / X サーバ 等）と各ステップの解説は [docs/setup.md](docs/setup.md) 参照。`.env` は host 固有なので gitignored、`.env.example` を雛形に編集する。
 
-## 動作確認 (task_id=4)
+## 動作確認 (task_id=1)
 
 Unity ([shimz-robotics/OperaSim-PhysX](https://github.com/shimz-robotics/OperaSim-PhysX)) を別途起動した状態で、以下を 2 ターミナルで実行:
 
@@ -83,7 +83,7 @@ docker compose down     # コンテナ停止
 ## ドキュメント
 
 - [docs/setup.md](docs/setup.md) — 前提・ワークスペース構造・起動手順（詳細）
-- [docs/usage.md](docs/usage.md) — `task_id=4` 完走手順 / 停止 / 既知の制約・トラブルシュート
+- [docs/usage.md](docs/usage.md) — `task_id=1` 完走手順 / 停止 / 既知の制約・トラブルシュート
 - [docs/development.md](docs/development.md) — src 編集 → 再ビルドの運用（Python / C++ / pin bump / 初回 build やり直し / Dockerfile 変更）
 
 ## 関連

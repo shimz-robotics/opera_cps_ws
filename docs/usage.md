@@ -2,7 +2,7 @@
 
 ホストから `scripts/exec.sh` 1 本で container 内のコマンドを叩く運用を基本とする。インタラクティブに探索したいときは `scripts/shell.sh` で対話 shell に入る。
 
-## 動作確認: `task_id=4` 完走
+## 動作確認: `task_id=1` 完走
 
 ### Terminal 1: Unity ↔ ROS 2 ブリッジ
 
@@ -19,6 +19,8 @@ Terminal 1 起動 → Unity 再生 → 接続確認後に Terminal 2 を起動:
 ```bash
 ./scripts/exec.sh ros2 launch /workspace/src/ros2_tms_for_construction/docker/launch/bringup.launch.yaml
 ```
+
+別の task を試す場合は `bringup.launch.yaml task_id:=2` のように渡す。
 
 詳細手順（Unity 設定、RViz の初期姿勢回避、緑ボタン押下）は上流 README を参照: <https://github.com/irvs/ros2_tms_for_construction/tree/main/docker>
 

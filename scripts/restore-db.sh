@@ -8,8 +8,9 @@
 #   docker compose exec tms restore-db.sh
 #
 # Writes to the bind-mounted demo/ directory (extracts rostmsdb_collections.zip
-# into demo/dump/), so we drop to the `ros` user if invoked as root. Otherwise
-# demo/dump would end up root-owned on the host.
+# into demo/dump/ on every run, overwriting a dump left by an older pin), so we
+# drop to the `ros` user if invoked as root. Otherwise demo/dump would end up
+# root-owned on the host.
 
 set -euo pipefail
 
@@ -24,25 +25,26 @@ DUMP_DIR="${DEMO_DIR}/dump"
 MONGO_HOST="${MONGO_HOST:-localhost}"
 MONGO_PORT="${MONGO_PORT:-27017}"
 
-if [ ! -d "${DUMP_DIR}" ]; then
-    if [ ! -f "${ZIP_PATH}" ]; then
-        echo "[restore-db] ERROR: ${ZIP_PATH} not found" >&2
-        echo "[restore-db] Hint: did `vcs import src/ < src.repos` complete on the host?" >&2
-        exit 1
-    fi
-    echo "[restore-db] Extracting ${ZIP_PATH}"
-    (cd "${DEMO_DIR}" && unzip -o "$(basename "${ZIP_PATH}")")
+if [ ! -f "${ZIP_PATH}" ]; then
+    echo "[restore-db] ERROR: ${ZIP_PATH} not found" >&2
+    echo '[restore-db] Hint: did `vcs import src/ < src.repos` complete on the host?' >&2
+    exit 1
 fi
+# Always re-extract: the zip of every pin unpacks to the same file names under
+# dump/rostmsdb/, so skipping when dump/ exists would silently restore the seed
+# of an older pin after the pin is bumped.
+echo "[restore-db] Extracting ${ZIP_PATH}"
+(cd "${DEMO_DIR}" && unzip -o -q "$(basename "${ZIP_PATH}")")
 
 echo "[restore-db] mongorestore --drop --host ${MONGO_HOST} --port ${MONGO_PORT} ${DUMP_DIR}"
 mongorestore --drop --host "${MONGO_HOST}" --port "${MONGO_PORT}" "${DUMP_DIR}"
 
 # The shipped seed embeds a `description` (string) field in many `parameter`
 # records (initial_pose, target_excavate_pose, ...). The current
-# `subtask_zx200_*` implementations iterate over each key and only handle
+# `subtask_excavator_*` implementations iterate over each key and only handle
 # numeric types (int32 / int64 / double); the string `description` triggers a
 # TypeError and the BT call stalls before sending the goal.
-# Strip the field as a post-restore fix-up so task_id=4 etc. work out of the
+# Strip the field as a post-restore fix-up so task_id=1 etc. work out of the
 # box without manual MongoDB editing. Drop this block once the seed (or the
 # subtask side) treats `description` properly.
 echo "[restore-db] Stripping 'description' from parameter records (workaround for subtask type-handling)"

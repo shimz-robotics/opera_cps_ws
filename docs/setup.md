@@ -17,7 +17,7 @@ opera-cps-ws/                        # this repo (meta)
 ├── requirements.txt                 # 上流から vendor、bump 時は手動同期
 ├── src.repos                        # public 依存
 ├── src.private.repos                # private 依存
-├── launch/bringup.launch.yaml       # task_id=4 用 3 launch 連鎖
+├── launch/bringup.launch.yaml       # task_id=1 用 3 launch 連鎖
 ├── scripts/
 │   ├── entrypoint.sh                # container: 初回 colcon build + gosu drop
 │   ├── restore-db.sh                # container: mongorestore + parameter フィールド整形
@@ -77,11 +77,11 @@ docker compose up -d
 docker compose exec tms restore-db.sh
 ```
 
-`ros2_tms_for_construction/demo/rostmsdb_collections.zip` を展開して `mongorestore`、続いて `parameter` collection から `description` (string) フィールドを除去（subtask 側の型不整合 workaround）。
+`ros2_tms_for_construction/demo/rostmsdb_collections.zip` を毎回上書き展開して `mongorestore`、続いて `parameter` collection から `description` (string) フィールドを除去（subtask 側の型不整合 workaround）。
 
-完了すると `rostmsdb` に task 11 件・parameter 40 件ほどが投入される。`task_id=4`（zx200 掘削積込タスク）はシードに含まれているため別途登録不要。
+完了すると `rostmsdb` に task 5 件・parameter 20 件が投入される。`task_id=1`（zx200 掘削積込タスク、6 サブタスク。`task_id=2` は同じ内容を 4 サイクル）はシードに含まれているため別途登録不要。
 
 ## 次のステップ
 
-- 動作確認（task_id=4 完走）: [usage.md](usage.md)
+- 動作確認（task_id=1 完走）: [usage.md](usage.md)
 - src 編集 → 再ビルドの運用: [development.md](development.md)
