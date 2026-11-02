@@ -55,6 +55,8 @@ vcs import --force src/ < src.repos     # 既存 dir を destroy して再 clone
 
 `ros2_tms_for_construction` の pin を上げて DB のシード (`demo/rostmsdb_collections.zip`) が変わった時は `docker compose exec tms restore-db.sh` を実行し直す。
 
+pull で `compose.yaml` も変わった時 (bind mount の追加など) は、`docker compose up -d` でコンテナを作り直す。`scripts/exec.sh` は既存のコンテナに入るだけなので、作り直すまで新しい定義は効かない。named volume (`build/` `install/` `log/`・DB) は残る。
+
 特定 repo だけ branch 切替したい時はホスト側で `cd src/<repo> && git checkout <branch>` で OK。
 
 ## ⑤ 「初回 colcon build」をやり直す
