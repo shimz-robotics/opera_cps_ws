@@ -20,6 +20,17 @@ ARG USER_GID=1000
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # ---------------------------------------------------------------------------
+# 0. Optional extra CA certificates (e.g. behind a TLS-inspecting proxy).
+#    Put PEM files named *.crt in certs/ before building. certs/ holds only
+#    .gitkeep in git, so builds without extra certificates behave as before.
+#    pip uses its own bundle by default; point it at the system bundle.
+# ---------------------------------------------------------------------------
+COPY certs/ /usr/local/share/ca-certificates/extra/
+RUN update-ca-certificates
+ENV PIP_CERT=/etc/ssl/certs/ca-certificates.crt \
+    REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+
+# ---------------------------------------------------------------------------
 # 1. APT dependencies
 #
 # Previously this layer used `ros-humble-*moveit*` / `*nav2*` / `*tf*`

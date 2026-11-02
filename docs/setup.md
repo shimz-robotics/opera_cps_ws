@@ -17,6 +17,7 @@ opera_cps_ws/                        # this repo (meta)
 ├── requirements.txt                 # 上流から vendor、bump 時は手動同期
 ├── src.repos                        # public 依存
 ├── src.private.repos                # private 依存
+├── certs/                           # 任意: ビルドに追加する CA 証明書 (中身は .gitignore'd)
 ├── launch/bringup.launch.yaml       # task_id=1 用 3 launch 連鎖
 ├── scripts/
 │   ├── entrypoint.sh                # container: 初回 colcon build + gosu drop
@@ -56,6 +57,16 @@ UID=$(id -u) GID=$(id -g) docker compose build
 ```
 
 `UID` / `GID` を build args で渡すのは、コンテナ内 `ros` ユーザーの UID/GID をホストと揃えて bind mount の権限不一致を防ぐため。初回は BehaviorTree.CPP / mongo-c-driver / mongo-cxx-driver などのソースビルドが走るため 20〜30 分かかる想定。
+
+#### TLS を検査するプロキシの内側でビルドする場合
+
+pip などが `CERTIFICATE_VERIFY_FAILED` で止まる場合は、プロキシの CA 証明書 (PEM、拡張子 `.crt`) を `certs/` に置いてからビルドする。ホストの信頼ストアに入れてあれば、それを写せばよい:
+
+```bash
+cp /usr/local/share/ca-certificates/*.crt certs/
+```
+
+image には `update-ca-certificates` で取り込み、pip・requests もシステムの証明書束を使うよう `PIP_CERT` / `REQUESTS_CA_BUNDLE` を設定する。`certs/` の中身は git に入らない (`.gitkeep` のみ追跡)。空のままなら従来どおりビルドされる。
 
 ### 3. X サーバーへのアクセス許可（GUI を使うセッションごとに 1 回）
 
