@@ -149,8 +149,6 @@ cd ~/nodered-ros2-opera && docker compose stop
 
 PC が重い時は、Windows の PowerShell で `wsl --shutdown` を実行すると WSL ごと止まる。
 
-nodered-ros2-opera の compose は `restart: always` なので、一度 `up` した Node-RED は、WSL を起動し直すと自動で立ち上がる (stop していても)。使わない時は `docker compose down` で消しておく。
-
 ## 困った時
 
 | 症状 | 原因と対処 |
