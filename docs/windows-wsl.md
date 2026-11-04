@@ -117,13 +117,11 @@ cd ~/opera_cps_ws
 ./scripts/exec.sh ros2 launch /workspace/launch/bringup.launch.yaml
 ```
 
-RViz と緑ボタンの窓が開く。
+RViz と緑ボタンの窓が開く。緑ボタンを押すと task_id=1 が始まる (約 35 秒)。
 
-1. RViz の MotionPlanning パネルで **Joints** タブを開き、`boom_joint` を少し下げる
-2. **Planning** タブで **Plan & Execute** を押す (初期姿勢の回避)
-3. 緑ボタンを押すと task_id=1 が始まる (約 35 秒)
+RViz で ZX200 のリンクがピンク色 (接触) の時は、先に姿勢を変える。MotionPlanning パネルの **Joints** タブで `boom_joint` を少し下げ、**Planning** タブで **Plan & Execute** を押す。
 
-もう一度流す時は、端末 2 で Ctrl-C を押して bringup を起動し直す (1 回終えた BT はタスクを受け付けない)。
+もう一度流す時や、タスクが途中で止まった時は、端末 2 で Ctrl-C を押して bringup を起動し直す (Unity は再生したままでよい)。1 回終えたタスクや途中で止まったタスクが残っている間は、緑ボタンを押しても次のタスクが始まらない。
 
 ### Node-RED から操作する
 
@@ -158,7 +156,8 @@ PC が重い時は、Windows の PowerShell で `wsl --shutdown` を実行する
 | Unity を再生し直したら endpoint が落ちた (Broken pipe) | endpoint の再接続の既知の不具合。端末 1 で endpoint を起動し直す |
 | しばらく放っておいたらコンテナが止まっていた (exit 255) | WSL の端末を全部閉じると、WSL の VM が自動で止まる。使う間は端末を開いておく。止まったら `docker compose up -d` からやり直す |
 | `docker compose build` が `CERTIFICATE_VERIFY_FAILED` で止まる | TLS を検査するプロキシの CA が `certs/` に無い ([setup.md の該当節](setup.md#tls-を検査するプロキシの内側でビルドする場合)) |
-| 緑ボタンを押してもタスクが始まらない | RViz で初期姿勢の回避をしていない可能性がある。`boom_joint` を下げて Plan & Execute してから押す |
+| 緑ボタンを押してもタスクが始まらない、途中で止まる | 前のタスクが残っている。端末 2 で Ctrl-C を押して bringup を起動し直してから、1 回だけ押す。RViz でリンクがピンク色なら、先に `boom_joint` を下げて Plan & Execute する |
+| bringup の起動時に `Failed getting a result from calling /zx200/controller_manager/load_controller` が出て、ZX200 が動かない | Unity を再生する前に bringup を起動した。Unity を再生した状態で、端末 2 の bringup を起動し直す |
 | `docker compose build` が `permission denied ... docker.sock` で止まる | docker グループに入っていない。「前提」の `usermod` の後、端末を開き直す |
 | 動きがカクつく | 制御器の時刻は Unity の `/clock` で進むので、PC が重いと滑らかさが落ちる。ほかの重いアプリを閉じる |
 | `http://127.0.0.1:1880/ui` に接続できない | Node-RED のコンテナが止まっている。`cd ~/nodered-ros2-opera && docker compose up -d` |
