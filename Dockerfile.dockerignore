@@ -10,3 +10,4 @@
 !requirements.txt
 !scripts/entrypoint.sh
 !scripts/restore-db.sh
+!certs/

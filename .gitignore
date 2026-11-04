@@ -12,3 +12,7 @@ compose.override.yaml
 .vscode/
 .idea/
 .DS_Store
+
+# Extra CA certificates for the image build (see Dockerfile step 0).
+certs/*
+!certs/.gitkeep
