@@ -38,7 +38,7 @@ docker compose up -d                 # 初回起動時にコンテナ内 colcon 
 docker compose exec tms restore-db.sh # DB seed 投入 (初回のみ)
 ```
 
-前提条件（ホスト OS / vcstool / X サーバ 等）と各ステップの解説は [docs/setup.md](docs/setup.md) 参照。`.env` は host 固有なので gitignored、`.env.example` を雛形に編集する。
+前提条件（ホスト OS / vcstool / X サーバ 等）と各ステップの解説は [docs/setup.md](docs/setup.md) 参照。Windows の WSL2 で動かす場合は [docs/windows-wsl.md](docs/windows-wsl.md)。`.env` は host 固有なので gitignored、`.env.example` を雛形に編集する。
 
 ## 動作確認 (task_id=1)
 
@@ -85,6 +85,7 @@ docker compose down     # コンテナ停止
 - [docs/setup.md](docs/setup.md) — 前提・ワークスペース構造・起動手順（詳細）
 - [docs/usage.md](docs/usage.md) — `task_id=1` 完走手順 / 停止 / 既知の制約・トラブルシュート
 - [docs/development.md](docs/development.md) — src 編集 → 再ビルドの運用（Python / C++ / pin bump / 初回 build やり直し / Dockerfile 変更）
+- [docs/windows-wsl.md](docs/windows-wsl.md) — Windows 11 の WSL2 で動かす手順（Windows 側の Unity・Node-RED と組む。初回の準備から終わり方まで）
 
 ## 関連
 
