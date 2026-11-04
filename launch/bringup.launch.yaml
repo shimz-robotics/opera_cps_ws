@@ -1,44 +1,23 @@
+# Unity (OperaSim-PhysX) 用の bringup。上流の docker/launch/bringup.launch.yaml を include し、
+# zx200_ros2 main (de7ab607 以降) が前提とする次の 2 点を足す:
+#   - /zx200/joint_states (Unity) を /zx200/front_joint_states へ中継する pubFrontJointState.py
+#     (vehicle.launch.py が joint_states を front_joint_states に remap するが、上流の launch は中継を起動しない)
+#   - use_sim_time:=true (joint_state_broadcaster が外れ、Unity の時刻付きの関節状態をそのまま使うため)
+# task_id / command_interface_name / use_rviz / tms_if_delay / tms_ts_delay は
+# 上流の bringup の引数で、コマンドラインで渡せば include 先に届く (例: task_id:=2)。
 launch:
   - arg:
-      name: task_id
-      default: "1"
-      description: "Task ID executed by tms_ur_button when the green button is pressed"
-  - arg:
-      name: command_interface_name
-      default: "velocity"
-      description: "ros2_control command interface (velocity / position / effort)"
-  - arg:
-      name: use_rviz
+      name: use_sim_time
       default: "true"
-      description: "Launch RViz alongside zx200_bringup"
-  - arg:
-      name: tms_if_delay
-      default: "5.0"
-      description: "Seconds to wait before launching tms_if_for_opera (avoids SRDF subscribe timeout). Increase on slower hosts."
-  - arg:
-      name: tms_ts_delay
-      default: "10.0"
-      description: "Seconds to wait before launching tms_ts_construction (must be > tms_if_delay). Increase on slower hosts."
+      description: "Use the /clock published by Unity"
+
+  - node:
+      pkg: zx200_unity
+      exec: pubFrontJointState.py
+      output: screen
 
   - include:
-      file: $(find-pkg-share zx200_bringup)/launch/vehicle.launch.py
+      file: /workspace/src/ros2_tms_for_construction/docker/launch/bringup.launch.yaml
       arg:
-        - name: command_interface_name
-          value: $(var command_interface_name)
-        - name: use_rviz
-          value: $(var use_rviz)
-
-  - timer:
-      period: $(var tms_if_delay)
-      children:
-        - include:
-            file: $(find-pkg-share tms_if_for_opera)/launch/tms_if_for_opera.launch.py
-
-  - timer:
-      period: $(var tms_ts_delay)
-      children:
-        - include:
-            file: $(find-pkg-share tms_ts_launch)/launch/tms_ts_construction.launch.py
-            arg:
-              - name: task_id
-                value: $(var task_id)
+        - name: use_sim_time
+          value: $(var use_sim_time)

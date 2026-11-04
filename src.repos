@@ -20,11 +20,12 @@ repositories:
     version: 70973d004365f16d47a8c7bd9c5d84fa0bb9d05d  # master @ 2025-02-28
   tms_if_for_opera:
     type: git
-    # main @ 2026-10-02 (60a5af3) + MoveIt scaling factors as launch args (default 1.0).
+    # main @ 2026-10-02 (60a5af3) + MoveIt scaling factors as launch args (default 1.0)
+    # + robot_description passed as a string (needed for the zx200_ros2 URDF at de7ab607).
     # Upstream provides per-plan scaling on feature/primitive instead; return to
     # irvs main once feature/primitive is merged there.
     url: https://github.com/shimz-robotics/tms_if_for_opera.git
-    version: 6987a9b032d4ab768c26cae2a36e442011316e24  # feature/moveit2-scaling-factor-param @ 2026-10-07
+    version: f9a4f529122fe4b08090be6e9632e6f706cc095b  # fix/robot-description-str @ 2026-11-03
   opera/common/com3_ros:
     type: git
     url: https://github.com/pwri-opera/com3_ros.git
@@ -40,7 +41,7 @@ repositories:
   opera/zx200/zx200_ros2:
     type: git
     url: https://github.com/pwri-opera/zx200_ros2.git
-    version: d8c8453850708327d99fccf81c0c16bb4ae90c2e  # main @ 2026-04-17
+    version: de7ab607191161c01241eb6b269340a2b685115b  # main @ 2026-09-11 (merge of PR #21: fix/urdf; includes position_only_ik: true)
   opera/ic120/ic120_ros2:
     type: git
     url: https://github.com/pwri-opera/ic120_ros2.git

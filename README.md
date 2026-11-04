@@ -16,7 +16,7 @@ ROS 2 TMS for Construction の **開発用 meta-workspace**。Docker + vcstool �
 | 誰でもまず動かせる reference | `irvs/ros2_tms_for_construction:docker/` |
 | 全依存を src.repos で管理する開発・実験環境 | このリポジトリ |
 
-両方を並存させる。本リポジトリの `Dockerfile` / `entrypoint.sh` / `restore-db.sh` / `launch/bringup.launch.yaml` は上流の `docker/` をベースにしているため、上流が更新されたら追従が必要。
+両方を並存させる。本リポジトリの `Dockerfile` / `entrypoint.sh` / `restore-db.sh` は上流の `docker/` をベースにしているため、上流が更新されたら追従が必要。`launch/bringup.launch.yaml` は上流の `docker/launch/bringup.launch.yaml` を include し、zx200_ros2 の pin に合わせた起動 (関節状態の中継・`use_sim_time`) を足す薄い launch。
 
 ## 環境構築
 
@@ -55,7 +55,7 @@ Unity の **再生ボタンを押して接続を確認した後**、Terminal 2 �
 ### Terminal 2: bringup (zx200 / tms_if / tms_ts を 3 段連鎖起動)
 
 ```bash
-./scripts/exec.sh ros2 launch /workspace/src/ros2_tms_for_construction/docker/launch/bringup.launch.yaml
+./scripts/exec.sh ros2 launch /workspace/launch/bringup.launch.yaml
 ```
 
 RViz の初期姿勢回避（`boom_joint` を下げて Plan & Execute）→ `tms_ur_button` の緑ボタン押下までの詳細手順は [docs/usage.md](docs/usage.md) 参照。

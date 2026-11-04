@@ -40,6 +40,8 @@ services:
       # Bind mount the entire workspace src/ — ros2_tms_for_construction and
       # all external deps (populated by `vcs import` on the host) live here.
       - ./src/:/workspace/src/
+      # Launch files of this repo (launch/bringup.launch.yaml wraps the upstream bringup).
+      - ./launch/:/workspace/launch/:ro
       - tms_build:/workspace/build
       - tms_install:/workspace/install
       - tms_log:/workspace/log

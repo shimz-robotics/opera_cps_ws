@@ -17,10 +17,15 @@
 Terminal 1 起動 → Unity 再生 → 接続確認後に Terminal 2 を起動:
 
 ```bash
-./scripts/exec.sh ros2 launch /workspace/src/ros2_tms_for_construction/docker/launch/bringup.launch.yaml
+./scripts/exec.sh ros2 launch /workspace/launch/bringup.launch.yaml
 ```
 
 別の task を試す場合は `bringup.launch.yaml task_id:=2` のように渡す。
+
+この launch は上流の `docker/launch/bringup.launch.yaml` を include し、zx200_ros2 (de7ab607 以降) が前提とする次の 2 点を足す:
+
+- `zx200_unity` の `pubFrontJointState.py` で、Unity の `/zx200/joint_states` を `/zx200/front_joint_states` に中継する (`vehicle.launch.py` が MoveIt・ros2_control の購読先を `front_joint_states` に remap しているため)
+- `use_sim_time:=true` (関節状態に Unity の時刻が付くため)。制御器の時刻は Unity の `/clock` で進むので、PC が重く Unity のフレームレートが落ちると動きがカクつくことがある
 
 詳細手順（Unity 設定、RViz の初期姿勢回避、緑ボタン押下）は上流 README を参照: <https://github.com/irvs/ros2_tms_for_construction/tree/main/docker>
 
