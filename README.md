@@ -40,9 +40,20 @@ docker compose exec tms restore-db.sh # DB seed 投入 (初回のみ)
 
 前提条件（ホスト OS / vcstool / X サーバ 等）と各ステップの解説は [docs/setup.md](docs/setup.md) 参照。`.env` は host 固有なので gitignored、`.env.example` を雛形に編集する。
 
+## Unity シミュレータ
+
+ZX200 のシミュレータは本リポジトリとは別に clone し、Unity Hub で開く。
+
+- 清水建設の開発者: [shimz-robotics/OperaSim-PhysX-shimz](https://github.com/shimz-robotics/OperaSim-PhysX-shimz) (private) の `shimz-main` branch
+- それ以外: 本家 [pwri-opera/OperaSim-PhysX](https://github.com/pwri-opera/OperaSim-PhysX)
+
+```bash
+git clone -b shimz-main https://github.com/shimz-robotics/OperaSim-PhysX-shimz.git
+```
+
 ## 動作確認 (task_id=1)
 
-Unity ([shimz-robotics/OperaSim-PhysX](https://github.com/shimz-robotics/OperaSim-PhysX)) を別途起動した状態で、以下を 2 ターミナルで実行:
+Unity ([Unity シミュレータ](#unity-シミュレータ)) を起動した状態で、以下を 2 ターミナルで実行:
 
 ### Terminal 1: Unity ↔ ROS 2 ブリッジ
 
@@ -89,4 +100,4 @@ docker compose down     # コンテナ停止
 ## 関連
 
 - 上流: [irvs/ros2_tms_for_construction](https://github.com/irvs/ros2_tms_for_construction)
-- Unity 側シミュレータ: [shimz-robotics/OperaSim-PhysX](https://github.com/shimz-robotics/OperaSim-PhysX) — zx200 link の DeadTime tuning で制御の振動挙動を緩和済み（`shimz-main` branch）。
+- Unity シミュレータ: [shimz-robotics/OperaSim-PhysX-shimz](https://github.com/shimz-robotics/OperaSim-PhysX-shimz) (private、`shimz-main` branch) / 本家 [pwri-opera/OperaSim-PhysX](https://github.com/pwri-opera/OperaSim-PhysX)
