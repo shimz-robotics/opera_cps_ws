@@ -2,7 +2,7 @@
 
 ## 前提
 
-- Ubuntu ホスト（ROS 2 humble の Tier 1 プラットフォーム要件）
+- Ubuntu ホスト（ROS 2 humble の Tier 1 プラットフォーム要件）。Windows の WSL2 で動かす場合は [windows-wsl.md](windows-wsl.md)
 - Docker Engine + docker-compose v2
 - Python 3 + `vcstool` (`sudo apt install python3-vcstool`)
 - X サーバが稼働中（GUI を使う場合）
@@ -18,7 +18,7 @@ opera_cps_ws/                        # this repo (meta)
 ├── src.repos                        # public 依存
 ├── src.private.repos                # private 依存
 ├── certs/                           # 任意: ビルドに追加する CA 証明書 (中身は .gitignore'd)
-├── launch/bringup.launch.yaml       # task_id=1 用 3 launch 連鎖
+├── launch/bringup.launch.yaml       # 上流の bringup を include し、関節状態の中継と use_sim_time を足す
 ├── scripts/
 │   ├── entrypoint.sh                # container: 初回 colcon build + gosu drop
 │   ├── restore-db.sh                # container: mongorestore + parameter フィールド整形
