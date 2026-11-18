@@ -25,7 +25,7 @@ Windows 11 の PC で、Windows 側の Unity (OperaSim-PhysX) の ZX200 を、WS
 - WSL のディストリビューション Ubuntu-24.04 (systemd 有効)
 - その中に Docker Engine と Docker Compose v2 ([Docker の公式手順](https://docs.docker.com/engine/install/ubuntu/))、`git`、`vcstool` (`sudo apt install vcstool`。ROS の apt リポジトリを入れていない Ubuntu では `python3-vcstool` の名前では入らない)
 - 自分のユーザーを docker グループに入れる (`sudo usermod -aG docker $USER` の後、WSL の端末を開き直す)。公式手順の本編には無く、[post-install](https://docs.docker.com/engine/install/linux-postinstall/) にある
-- Windows に Unity Hub と [OperaSim-PhysX](https://github.com/shimz-robotics/OperaSim-PhysX) (`shimz-main` branch)
+- Windows に Unity Hub と OperaSim-PhysX ([README の「Unity シミュレータ」](../README.md#unity-シミュレータ))
 - Node-RED を使う場合は nodered-ros2-opera を clone できる GitHub の権限
 
 WSL の端末で `docker run --rm hello-world` が sudo なしで通れば準備できている (`docker compose version` は daemon に繋がないので、権限が無くても通ってしまう)。
@@ -36,10 +36,16 @@ WSL の端末で `docker run --rm hello-world` が sudo なしで通れば準備
 
 ### 1. GitHub の認証を Windows と共有する (Node-RED を使う場合)
 
-nodered-ros2-opera は private なので、clone に認証が要る。WSL の git から Windows の Git Credential Manager を使う:
+nodered-ros2-opera は private なので、clone に認証が要る。WSL の git から Windows の Git Credential Manager を使う。置き場所は Git for Windows の版で違う (新しい版は `ucrt64`、古い版は `mingw64` の下) ので、先に探す:
 
 ```bash
-git config --global credential.helper "/mnt/c/Program\ Files/Git/mingw64/bin/git-credential-manager.exe"
+ls "/mnt/c/Program Files/Git/"*/bin/git-credential-manager.exe
+```
+
+出たパスを helper に設定する (`ucrt64` の場合):
+
+```bash
+git config --global credential.helper "/mnt/c/Program\ Files/Git/ucrt64/bin/git-credential-manager.exe"
 ```
 
 Windows で GitHub にログイン済みなら、clone の時に何も聞かれない。聞かれたら、開いたブラウザでログインする。
@@ -51,6 +57,7 @@ cd ~
 git clone https://github.com/shimz-robotics/opera_cps_ws.git
 cd opera_cps_ws
 printf 'UID=%s\nGID=%s\n' "$(id -u)" "$(id -g)" > .env
+mkdir -p src
 vcs import --force src < src.repos
 docker compose build
 ```
@@ -89,7 +96,7 @@ docker compose build
 
 ### 4. Unity の接続先を設定する
 
-1. Unity Hub で OperaSim-PhysX を開く
+1. Unity Hub で OperaSim-PhysX を開き、Project で `Assets/Scenes/SampleScene` を開く (既定で開くことがある `SimpleScene` は、ZX200 の関節の状態を `zx200/joint_state` (単数) で出すので、MoveIt が `couldn't receive full current joint state within 1s` で止まる)
 2. Project で `Assets/Other 3rd Party Series/Resources/ROSConnectionPrefab` を選ぶ
 3. Inspector の **ROS IP Address** を `127.0.0.1` にする。Port は `10000` のまま。前後に空白を入れない (入ると「ROS IP is invalid」と出て繋がらない)
 4. Ctrl+S で保存する
